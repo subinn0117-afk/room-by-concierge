@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>룸바이컨시어지 | Room by Concierge</title>
+<meta name="description" content="호텔 기념일 데코 스토어 룸바이컨시어지. 예약은 당신이, 감동은 컨시어지가">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Serif+KR:wght@300;400;600&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0f1a2b;
+    --navy-2: #16243a;
+    --ivory: #f8f4ec;
+    --cream: #efe7d8;
+    --gold: #b8975a;
+    --gold-light: #d8c08e;
+    --text: #2a2a2a;
+    --muted: #6f6a60;
+    --line: rgba(184, 151, 90, 0.35);
+    --serif-en: 'Cormorant Garamond', serif;
+    --serif-kr: 'Noto Serif KR', serif;
+    --sans: 'Noto Sans KR', sans-serif;
+    --strip: 0px;
+    --nav: 68px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: calc(var(--strip) + var(--nav)); -webkit-text-size-adjust: 100%; }
+  body { font-family: var(--sans); color: var(--text); background: var(--ivory); line-height: 1.7; word-break: keep-all; overflow-wrap: break-word; overflow-x: hidden; }
+  a { color: inherit; text-decoration: none; }
+  img { max-width: 100%; display: block; }
+  button { font-family: inherit; }
+  .container { width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+
+
+  /* Header */
+  header { position: fixed; inset: 0 0 auto 0; z-index: 100; }
+  .nav-bar { transition: background .35s, box-shadow .35s; }
+  header.scrolled .nav-bar, header.menu-open .nav-bar { background: rgba(15, 26, 43, 0.97); box-shadow: 0 2px 20px rgba(0,0,0,.25); }
+  .nav { display: flex; align-items: center; justify-content: space-between; height: var(--nav); position: relative; }
+  .logo { color: var(--ivory); display: flex; flex-direction: column; line-height: 1.1; }
+  .logo .en { font-family: var(--serif-en); font-size: 1.4rem; letter-spacing: .08em; white-space: nowrap; }
+  .logo .kr { font-size: .66rem; letter-spacing: .35em; color: var(--gold-light); margin-top: 3px; }
+  .menu { display: flex; gap: 34px; list-style: none; }
+  .menu a { color: var(--ivory); font-size: .9rem; letter-spacing: .05em; position: relative; padding: 4px 0; white-space: nowrap; }
+  .menu a::after { content: ''; position: absolute; left: 0; bottom: -2px; width: 0; height: 1px; background: var(--gold-light); transition: width .3s; }
+  .menu a:hover::after { width: 100%; }
+  .nav-cta { border: 1px solid var(--gold); color: var(--gold-light); padding: 8px 20px; font-size: .82rem; letter-spacing: .1em; transition: .3s; white-space: nowrap; }
+  .nav-cta:hover { background: var(--gold); color: var(--navy); }
+  .burger { display: none; background: none; border: 0; width: 44px; height: 44px; position: relative; cursor: pointer; margin-right: -8px; }
+  .burger span { position: absolute; left: 8px; width: 28px; height: 1.5px; background: var(--ivory); transition: .3s; }
+  .burger span:nth-child(1) { top: 14px; } .burger span:nth-child(2) { top: 21px; } .burger span:nth-child(3) { top: 28px; }
+  .burger.open span:nth-child(1) { top: 21px; transform: rotate(45deg); }
+  .burger.open span:nth-child(2) { opacity: 0; }
+  .burger.open span:nth-child(3) { top: 21px; transform: rotate(-45deg); }
+
+  /* Hero */
+  .hero { position: relative; min-height: 100vh; min-height: 100svh; display: flex; align-items: center; justify-content: center; text-align: center; color: var(--ivory); overflow: hidden; background: var(--navy); padding: calc(var(--strip) + var(--nav) + 20px) 0 90px; }
+  .hero-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; }
+  .hero-overlay { position: absolute; inset: 0; z-index: 1; background: linear-gradient(180deg, rgba(11,20,34,.72) 0%, rgba(15,26,43,.55) 45%, rgba(20,16,30,.82) 100%); }
+  .hero::before { content: ''; position: absolute; inset: 28px; top: calc(var(--strip) + 28px); border: 1px solid var(--line); pointer-events: none; z-index: 2; }
+  .sparkle { position: absolute; border-radius: 50%; background: var(--gold-light); opacity: 0; animation: twinkle 5s infinite ease-in-out; z-index: 1; }
+  @keyframes twinkle { 0%,100% { opacity: 0; transform: scale(.6);} 50% { opacity: .8; transform: scale(1);} }
+  .hero-inner { position: relative; z-index: 3; padding: 0 24px; }
+  .eyebrow { font-family: var(--serif-en); font-style: italic; color: var(--gold-light); letter-spacing: .25em; font-size: 1rem; }
+  .hero h1 { font-family: var(--serif-en); font-weight: 400; font-size: clamp(2.4rem, 8vw, 5.4rem); letter-spacing: .04em; line-height: 1.1; margin: 18px 0 6px; }
+  .hero .kr-name { font-family: var(--serif-kr); font-weight: 300; letter-spacing: .5em; font-size: clamp(.9rem, 2.4vw, 1.1rem); color: var(--cream); }
+  .divider { width: 60px; height: 1px; background: var(--gold); margin: 30px auto; position: relative; }
+  .divider::before { content: '◆'; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); color: var(--gold); font-size: .55rem; }
+  .slogan { font-family: var(--serif-kr); font-size: clamp(1.15rem, 3.6vw, 1.75rem); font-weight: 400; letter-spacing: .06em; }
+  .hero p.sub { color: rgba(248,244,236,.75); margin-top: 14px; font-size: .95rem; font-weight: 300; }
+  .btn-row { display: flex; gap: 14px; justify-content: center; margin-top: 40px; flex-wrap: wrap; }
+  .btn { display: inline-block; padding: 15px 36px; font-size: .88rem; letter-spacing: .12em; transition: .3s; cursor: pointer; border: 1px solid var(--gold); font-family: var(--sans); text-align: center; }
+  .btn-gold { background: var(--gold); color: var(--navy); }
+  .btn-gold:hover { background: var(--gold-light); border-color: var(--gold-light); }
+  .btn-line { color: var(--ivory); background: transparent; }
+  .btn-line:hover { background: rgba(184,151,90,.15); }
+  .scroll-hint { position: absolute; bottom: 44px; left: 50%; transform: translateX(-50%); color: var(--gold-light); font-family: var(--serif-en); font-size: .75rem; letter-spacing: .3em; z-index: 3; }
+  .scroll-hint::after { content: ''; display: block; width: 1px; height: 32px; background: linear-gradient(var(--gold), transparent); margin: 8px auto 0; }
+
+  /* Sections */
+  section { padding: 110px 0; }
+  .sec-head { text-align: center; margin-bottom: 60px; }
+  .sec-head .en { font-family: var(--serif-en); font-style: italic; color: var(--gold); letter-spacing: .2em; font-size: 1rem; }
+  .sec-head h2 { font-family: var(--serif-kr); font-weight: 400; font-size: clamp(1.55rem, 4vw, 2.3rem); margin-top: 8px; letter-spacing: .04em; }
+  .sec-head p { color: var(--muted); margin-top: 14px; font-size: .95rem; }
+  .dark { background: var(--navy); color: var(--ivory); }
+  .dark .sec-head p { color: rgba(248,244,236,.65); }
+  .cream { background: var(--cream); }
+
+  /* Packages */
+  .packages { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; align-items: stretch; }
+  .pkg { background: #fff; border: 1px solid var(--line); padding: 0 34px 40px; position: relative; display: flex; flex-direction: column; transition: transform .35s, box-shadow .35s; }
+  .pkg:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(15,26,43,.12); }
+  .pkg-img { margin: 0 -34px 28px; aspect-ratio: 4 / 3; overflow: hidden; position: relative; cursor: zoom-in; background: var(--navy); border: 0; padding: 0; display: block; width: calc(100% + 68px); }
+  .pkg-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .8s ease; }
+  .pkg-img:hover img, .pkg-img:focus-visible img { transform: scale(1.05); }
+  .pkg-img:focus-visible { outline: 2px solid var(--gold); outline-offset: -2px; }
+  .pkg-img .view-more { position: absolute; right: 12px; bottom: 12px; background: rgba(15,26,43,.8); color: var(--ivory); font-size: .74rem; letter-spacing: .04em; padding: 6px 12px; border: 1px solid var(--line); pointer-events: none; }
+  .pkg .tier { font-family: var(--serif-en); color: var(--gold); letter-spacing: .25em; font-size: .8rem; text-transform: uppercase; }
+  .pkg h3 { font-family: var(--serif-kr); font-weight: 600; font-size: 1.35rem; margin: 10px 0 4px; }
+  .pkg .en-name { font-family: var(--serif-en); font-style: italic; color: var(--muted); font-size: 1rem; }
+  .pkg .price { font-family: var(--serif-en); font-size: 2.5rem; color: var(--navy); margin: 22px 0 4px; line-height: 1; }
+  .pkg .price small { font-family: var(--sans); font-size: .9rem; margin-left: 4px; color: var(--muted); }
+  .pkg .vat { font-size: .78rem; color: var(--muted); }
+  .pkg hr { border: 0; border-top: 1px solid var(--line); margin: 24px 0; }
+  .pkg ul { list-style: none; flex: 1; }
+  .pkg li { padding: 7px 0 7px 22px; position: relative; font-size: .93rem; }
+  .pkg li::before { content: '◆'; position: absolute; left: 0; top: 9px; color: var(--gold); font-size: .55rem; }
+  .pkg li.inherit { color: var(--muted); }
+  .pkg li.inherit::before { content: '+'; font-size: .95rem; top: 5px; }
+  .pkg .btn { margin-top: 28px; color: var(--navy); background: transparent; }
+  .pkg .btn:hover { background: var(--navy); color: var(--ivory); border-color: var(--navy); }
+  .pkg.featured { background: var(--navy); color: var(--ivory); border-color: var(--gold); }
+  .pkg.featured .price { color: var(--gold-light); }
+  .pkg.featured .en-name, .pkg.featured .vat, .pkg.featured .price small, .pkg.featured li.inherit { color: rgba(248,244,236,.6); }
+  .pkg.featured .btn { background: var(--gold); color: var(--navy); }
+  .pkg.featured .btn:hover { background: var(--gold-light); border-color: var(--gold-light); }
+  .badge { position: absolute; top: -13px; left: 50%; transform: translateX(-50%); background: var(--gold); color: var(--navy); font-size: .72rem; letter-spacing: .15em; padding: 4px 16px; white-space: nowrap; z-index: 3; }
+
+  /* Options */
+  .options-block { margin-top: 90px; }
+  .options-block .sec-head { margin-bottom: 40px; }
+  .options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .opt { background: #fff; border: 1px solid var(--line); padding: 20px 22px; display: flex; justify-content: space-between; align-items: center; gap: 14px; }
+  .opt .name { font-size: .95rem; min-width: 0; }
+  .opt .name small { display: block; color: var(--muted); font-size: .8rem; }
+  .opt .p { font-family: var(--serif-en); font-size: 1.25rem; color: var(--navy); white-space: nowrap; }
+  .opt .p small { font-family: var(--sans); font-size: .78rem; color: var(--muted); }
+
+  /* Guide */
+  .steps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; }
+  .step { text-align: center; padding: 32px 18px; border: 1px solid rgba(184,151,90,.3); }
+  .step .num { font-family: var(--serif-en); font-size: 2.6rem; color: var(--gold); line-height: 1; }
+  .step h4 { font-family: var(--serif-kr); font-weight: 400; font-size: 1.05rem; margin: 14px 0 10px; }
+  .step p { font-size: .87rem; color: rgba(248,244,236,.72); }
+  .notice { margin-top: 44px; padding: 26px 30px; border-left: 2px solid var(--gold); background: rgba(255,255,255,.04); }
+  .notice h5 { font-family: var(--serif-kr); font-weight: 400; color: var(--gold-light); font-size: 1rem; margin-bottom: 10px; }
+  .notice ul { list-style: none; }
+  .notice li { font-size: .88rem; color: rgba(248,244,236,.78); padding: 3px 0 3px 16px; position: relative; }
+  .notice li::before { content: '·'; position: absolute; left: 2px; color: var(--gold); }
+
+  /* Payment / Refund */
+  .pay-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 36px; }
+  .pay-card { background: #fff; padding: 38px 34px; border: 1px solid var(--line); min-width: 0; }
+  .pay-card h3 { font-family: var(--serif-kr); font-weight: 400; font-size: 1.25rem; margin-bottom: 20px; display: flex; align-items: center; gap: 12px; }
+  .pay-card h3::before { content: ''; width: 24px; height: 1px; background: var(--gold); flex: none; }
+  .pay-card p, .pay-card li { font-size: .92rem; color: var(--muted); }
+  .pay-card ul { list-style: none; }
+  .pay-card ul li { padding: 8px 0; border-bottom: 1px dashed rgba(0,0,0,.08); }
+  .pay-card ul li:last-child { border: 0; }
+  .pay-card strong { color: var(--text); font-weight: 500; display: inline-block; min-width: 5.5em; }
+  .bank { background: var(--ivory); border: 1px solid var(--line); padding: 16px 18px; margin-bottom: 18px; }
+  .bank .acc { font-family: var(--serif-en); font-size: 1.3rem; color: var(--navy); letter-spacing: .03em; }
+  .bank .acc em { font-family: var(--sans); font-style: normal; font-size: .8rem; color: var(--muted); margin-left: 4px; }
+  .bank .holder { font-size: .85rem; color: var(--muted); }
+  .table-wrap { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  table.refund { width: 100%; border-collapse: collapse; font-size: .92rem; }
+  table.refund th, table.refund td { padding: 14px 12px; text-align: left; border-bottom: 1px solid rgba(0,0,0,.08); }
+  table.refund th { font-weight: 500; color: var(--navy); background: var(--ivory); font-size: .85rem; letter-spacing: .05em; white-space: nowrap; }
+  table.refund th:last-child, table.refund td:last-child { text-align: right; white-space: nowrap; }
+  table.refund td:last-child { font-family: var(--serif-en); font-size: 1.1rem; color: var(--navy); }
+  .small-note { font-size: .8rem !important; margin-top: 16px; color: var(--muted); }
+
+  /* About */
+  .about { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+  .about-visual { aspect-ratio: 4/5; background: linear-gradient(150deg, var(--navy) 0%, #2b2238 100%); position: relative; display: flex; align-items: center; justify-content: center; color: var(--gold-light); }
+  .about-visual::before { content: ''; position: absolute; inset: 18px; border: 1px solid var(--line); }
+  .about-visual .mono { font-family: var(--serif-en); font-size: 5rem; letter-spacing: .1em; text-align: center; line-height: 1; }
+  .about-visual .mono small { display: block; font-size: .85rem; letter-spacing: .4em; margin-top: 16px; font-style: italic; }
+  .about-text h3 { font-family: var(--serif-kr); font-weight: 400; font-size: clamp(1.3rem, 3vw, 1.8rem); line-height: 1.6; margin-bottom: 24px; }
+  .about-text h3 em { font-style: normal; color: var(--gold); }
+  .about-text p { color: var(--muted); margin-bottom: 16px; font-size: .95rem; }
+  .values { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 32px; }
+  .value { border-top: 1px solid var(--gold); padding-top: 14px; }
+  .value b { font-family: var(--serif-en); font-size: 1.05rem; color: var(--navy); display: block; letter-spacing: .05em; }
+  .value span { font-size: .82rem; color: var(--muted); }
+
+  /* Gallery */
+  .gallery { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 220px; gap: 12px; }
+  .gallery button { position: relative; overflow: hidden; cursor: zoom-in; background: var(--navy); border: 0; padding: 0; display: block; width: 100%; height: 100%; }
+  .gallery button.wide { grid-column: span 2; }
+  .gallery button.tall { grid-row: span 2; }
+  .gallery img { width: 100%; height: 100%; object-fit: cover; transition: transform .8s ease, opacity .4s; }
+  .gallery button:hover img, .gallery button:focus-visible img { transform: scale(1.06); opacity: .88; }
+  .gallery button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+  .gallery .cap { position: absolute; left: 0; right: 0; bottom: 0; padding: 26px 14px 10px; font-size: .78rem; color: var(--ivory); background: linear-gradient(transparent, rgba(0,0,0,.6)); text-align: left; }
+
+  /* Lightbox */
+  body.lb-lock { overflow: hidden; }
+  .lightbox { position: fixed; inset: 0; z-index: 300; background: rgba(8,12,20,.95); display: none; align-items: center; justify-content: center; padding: 64px 84px 24px; }
+  .lightbox.open { display: flex; animation: lbFade .25s ease; }
+  @keyframes lbFade { from { opacity: 0; } to { opacity: 1; } }
+  .lb-inner { width: 100%; max-width: 1100px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+  .lb-title { font-family: var(--serif-kr); color: var(--gold-light); font-size: 1rem; letter-spacing: .06em; text-align: center; }
+  .lb-stage { width: 100%; display: flex; justify-content: center; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+  .lb-stage img { max-width: 100%; max-height: 64vh; max-height: 64svh; object-fit: contain; transition: opacity .25s; -webkit-user-drag: none; }
+  .lb-stage img.loading { opacity: .25; }
+  .lb-meta { display: flex; flex-direction: column; align-items: center; gap: 3px; text-align: center; }
+  .lb-cap { color: var(--ivory); font-size: .95rem; }
+  .lb-credit { color: rgba(248,244,236,.5); font-size: .74rem; }
+  .lb-credit a { text-decoration: underline; text-underline-offset: 2px; }
+  .lb-count { font-family: var(--serif-en); color: var(--gold-light); letter-spacing: .2em; font-size: 1.05rem; }
+  .lb-btn { position: absolute; background: rgba(15,26,43,.65); border: 1px solid var(--line); color: var(--ivory); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background .25s, border-color .25s, color .25s; }
+  .lb-btn:hover, .lb-btn:focus-visible { background: var(--gold); border-color: var(--gold); color: var(--navy); }
+  .lb-close { top: 14px; right: 16px; width: 44px; height: 44px; font-size: 1.6rem; line-height: 1; }
+  .lb-prev, .lb-next { top: 50%; transform: translateY(-50%); width: 52px; height: 52px; font-size: 1.1rem; }
+  .lb-prev { left: 16px; } .lb-next { right: 16px; }
+  .lb-thumbs { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+  .lb-thumbs button { width: 64px; height: 48px; padding: 0; border: 1px solid transparent; background: none; cursor: pointer; opacity: .5; transition: opacity .25s, border-color .25s; }
+  .lb-thumbs button img { width: 100%; height: 100%; object-fit: cover; }
+  .lb-thumbs button.active, .lb-thumbs button:hover { opacity: 1; border-color: var(--gold); }
+
+  /* Reservation */
+  .reserve-wrap { max-width: 760px; margin: 0 auto; background: var(--navy-2); padding: 52px 50px; border: 1px solid var(--line); }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .field { display: flex; flex-direction: column; min-width: 0; }
+  .field.full { grid-column: 1 / -1; }
+  .field > label, .field > .label { font-size: .82rem; letter-spacing: .08em; color: var(--gold-light); margin-bottom: 8px; }
+  .field input, .field select, .field textarea { width: 100%; background: transparent; border: 0; border-bottom: 1px solid rgba(248,244,236,.3); color: var(--ivory); padding: 10px 2px; font-size: 16px; font-family: var(--sans); outline: none; transition: border-color .3s; border-radius: 0; -webkit-appearance: none; appearance: none; }
+  .field select { background-image: linear-gradient(45deg, transparent 50%, var(--gold-light) 50%), linear-gradient(135deg, var(--gold-light) 50%, transparent 50%); background-position: calc(100% - 14px) 55%, calc(100% - 9px) 55%; background-size: 5px 5px; background-repeat: no-repeat; padding-right: 26px; }
+  .field input::placeholder, .field textarea::placeholder { color: rgba(248,244,236,.35); }
+  .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--gold); }
+  .field select option { color: var(--text); }
+  .field textarea { resize: vertical; min-height: 90px; }
+  .field input[type="date"] { color-scheme: dark; min-height: 44px; }
+  .char-count { font-size: .75rem; color: rgba(248,244,236,.45); text-align: right; margin-top: 6px; }
+  .opt-checks { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 20px; }
+  .opt-checks label { display: flex; gap: 10px; align-items: flex-start; font-size: .88rem; color: rgba(248,244,236,.85); cursor: pointer; }
+  .opt-checks input { margin-top: 5px; accent-color: var(--gold); flex: none; width: 16px; height: 16px; }
+  .opt-checks em { font-style: normal; color: var(--gold-light); margin-left: 4px; white-space: nowrap; }
+  .total { margin-top: 26px; padding-top: 18px; border-top: 1px solid rgba(248,244,236,.15); display: flex; justify-content: space-between; align-items: baseline; color: rgba(248,244,236,.75); font-size: .9rem; gap: 12px; }
+  .total b { font-family: var(--serif-en); font-size: 1.7rem; font-weight: 500; color: var(--gold-light); }
+  .reserve-wrap .btn { width: 100%; margin-top: 30px; }
+  .result { display: none; text-align: center; margin-top: 22px; padding: 18px 16px; border: 1px solid var(--gold); color: var(--ivory); background: rgba(184,151,90,.12); font-size: .95rem; }
+  .result.show { display: block; animation: lbFade .3s ease; }
+
+  /* Footer */
+  footer { background: #0a121e; color: rgba(248,244,236,.55); padding: 56px 0 30px; font-size: .82rem; }
+  .foot { display: flex; justify-content: space-between; gap: 28px; flex-wrap: wrap; }
+  footer .logo { margin-bottom: 14px; }
+  footer .info p { margin: 2px 0; }
+  .credits { margin-top: 26px; font-size: .75rem; }
+  .credits a { text-decoration: underline; text-underline-offset: 2px; }
+  footer .copy { border-top: 1px solid rgba(248,244,236,.1); margin-top: 22px; padding-top: 20px; text-align: center; font-family: var(--serif-en); letter-spacing: .15em; }
+
+  /* Reveal */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity .8s ease, transform .8s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+
+  /* Responsive */
+  @media (max-width: 1100px) {
+    .steps { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 980px) {
+    .packages { grid-template-columns: 1fr; max-width: 520px; margin: 0 auto; gap: 40px; }
+    .options { grid-template-columns: repeat(2, 1fr); }
+    .steps { grid-template-columns: repeat(2, 1fr); }
+    .pay-grid, .about { grid-template-columns: 1fr; }
+    .about { gap: 40px; }
+    .about-visual { aspect-ratio: 16/10; }
+    .gallery { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 200px; }
+  }
+  @media (max-width: 860px) {
+    .burger { display: block; }
+    .nav-cta { display: none; }
+    .menu { position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; gap: 0; background: rgba(15,26,43,.98); max-height: 0; overflow: hidden; transition: max-height .4s ease; }
+    .menu.open { max-height: 420px; border-bottom: 1px solid var(--line); }
+    .menu li { border-top: 1px solid rgba(184,151,90,.15); }
+    .menu a { display: block; padding: 16px 24px; font-size: 1rem; }
+    .menu a::after { display: none; }
+  }
+  @media (max-width: 600px) {
+    :root { --nav: 60px; }
+    .container { padding: 0 16px; }
+    .logo .en { font-size: 1.2rem; }
+    .menu a { padding: 16px; }
+    section { padding: 76px 0; }
+    .sec-head { margin-bottom: 40px; }
+    .hero::before { inset: 12px; top: calc(var(--strip) + 12px); }
+    .btn-row .btn { width: 100%; max-width: 300px; }
+    .scroll-hint { display: none; }
+    .steps { grid-template-columns: 1fr; gap: 14px; }
+    .step { padding: 24px 18px; }
+    .pkg { padding: 0 22px 32px; }
+    .pkg-img { margin: 0 -22px 24px; width: calc(100% + 44px); }
+    .options { grid-template-columns: 1fr; }
+    .options-block { margin-top: 70px; }
+    .pay-card { padding: 28px 18px; }
+    .pay-card strong { display: block; }
+    .bank .acc { font-size: 1.1rem; }
+    table.refund { font-size: .86rem; }
+    table.refund th, table.refund td { padding: 12px 6px; }
+    .notice { padding: 20px 18px; }
+    .values { grid-template-columns: 1fr; }
+    .gallery { grid-auto-rows: auto; gap: 8px; }
+    .gallery button { height: auto; aspect-ratio: 1 / 1; }
+    .gallery button.wide { aspect-ratio: 16 / 10; }
+    .gallery button.tall { grid-row: span 1; }
+    .gallery .cap { font-size: .7rem; padding: 18px 8px 6px; }
+    .reserve-wrap { padding: 32px 18px; }
+    .form-grid { grid-template-columns: 1fr; gap: 22px; }
+    .opt-checks { grid-template-columns: 1fr; }
+    .lightbox { padding: 58px 10px 78px; }
+    .lb-prev, .lb-next { top: auto; bottom: 16px; transform: none; width: 46px; height: 46px; }
+    .lb-prev { left: calc(50% - 110px); } .lb-next { right: calc(50% - 110px); }
+    .lb-stage img { max-height: 56vh; max-height: 56svh; }
+    .lb-thumbs button { width: 50px; height: 38px; }
+  }
+  @media (max-width: 767px) {
+    .hero-video { display: none; }
+    .hero { background: var(--navy) url("images/room-1.jpg") center / cover no-repeat; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+    .reveal { opacity: 1; transform: none; }
+  }
+</style>
+</head>
+<body>
+
+<header id="header">
+  <div class="nav-bar">
+    <div class="container nav">
+      <a href="#home" class="logo" aria-label="룸바이컨시어지 홈">
+        <span class="en">Room by Concierge</span>
+        <span class="kr">룸바이컨시어지</span>
+      </a>
+      <nav aria-label="주 메뉴">
+        <ul class="menu" id="menu">
+          <li><a href="#home">홈</a></li>
+          <li><a href="#packages">패키지</a></li>
+          <li><a href="#guide">이용 안내</a></li>
+          <li><a href="#payment">결제·환불</a></li>
+          <li><a href="#about">컨시어지 소개</a></li>
+        </ul>
+      </nav>
+      <a href="#reserve" class="nav-cta">예약 문의</a>
+      <button class="burger" id="burger" type="button" aria-label="메뉴 열기" aria-expanded="false" aria-controls="menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<!-- HOME -->
+<section class="hero" id="home">
+  <!-- 배경 영상: Alef Morais / Pexels (Pexels License) -->
+  <video class="hero-video" id="heroVideo" autoplay muted loop playsinline preload="none"
+    poster="images/room-1.jpg"
+    aria-hidden="true">
+  </video>
+  <div class="hero-overlay"></div>
+  <div class="hero-inner">
+    <div class="eyebrow">Hotel Anniversary Décor</div>
+    <h1>Room by Concierge</h1>
+    <div class="kr-name">룸바이컨시어지</div>
+    <div class="divider"></div>
+    <p class="slogan">예약은 당신이, 감동은 컨시어지가</p>
+    <p class="sub">객실 문을 여는 순간, 오래 기억될 기념일이 시작됩니다.</p>
+    <div class="btn-row">
+      <a href="#packages" class="btn btn-gold">패키지 보기</a>
+      <a href="#reserve" class="btn btn-line">예약 문의하기</a>
+    </div>
+  </div>
+  <div class="scroll-hint">SCROLL</div>
+</section>
+
+<!-- PACKAGES -->
+<section id="packages">
+  <div class="container">
+    <div class="sec-head reveal">
+      <div class="en">Packages</div>
+      <h2>기념일 데코 패키지</h2>
+      <p>사진을 누르면 데코된 객실의 여러 공간을 넘겨 볼 수 있어요.</p>
+    </div>
+    <div class="packages">
+      <article class="pkg reveal">
+        <button type="button" class="pkg-img" data-set="standard" aria-label="스탠다드 로맨스 객실 사진 크게 보기">
+          <img src="images/pkg-standard-1.jpg" srcset="images/pkg-standard-1-s.jpg 520w, images/pkg-standard-1.jpg 1280w" sizes="(max-width: 600px) 100vw, (max-width: 980px) 520px, 380px" decoding="async" alt="풍선으로 꾸민 호텔 객실 침대" loading="lazy">
+          <span class="view-more">사진 4장 보기 +</span>
+        </button>
+        <div class="tier">Standard</div>
+        <h3>스탠다드 로맨스</h3>
+        <div class="en-name">Standard Romance</div>
+        <div class="price">89,000<small>원</small></div>
+        <div class="vat">VAT 포함 · 출장 세팅비 포함</div>
+        <hr>
+        <ul>
+          <li>풍선 데코 30개</li>
+          <li>LED 촛불 10개</li>
+          <li>레터링 배너</li>
+          <li>웰컴 카드</li>
+        </ul>
+        <a href="#reserve" class="btn" data-pkg="스탠다드 로맨스">이 패키지로 문의</a>
+      </article>
+
+      <article class="pkg featured reveal">
+        <div class="badge">BEST CHOICE</div>
+        <button type="button" class="pkg-img" data-set="deluxe" aria-label="디럭스 애니버서리 객실 사진 크게 보기">
+          <img src="images/pkg-deluxe-1.jpg" srcset="images/pkg-deluxe-1-s.jpg 520w, images/pkg-deluxe-1.jpg 1280w" sizes="(max-width: 600px) 100vw, (max-width: 980px) 520px, 380px" decoding="async" alt="타월 스완으로 턴다운 세팅한 호텔 객실" loading="lazy">
+          <span class="view-more">사진 5장 보기 +</span>
+        </button>
+        <div class="tier">Deluxe</div>
+        <h3>디럭스 애니버서리</h3>
+        <div class="en-name">Deluxe Anniversary</div>
+        <div class="price">159,000<small>원</small></div>
+        <div class="vat">VAT 포함 · 출장 세팅비 포함</div>
+        <hr>
+        <ul>
+          <li class="inherit">스탠다드 로맨스 구성 전체</li>
+          <li>생화 꽃다발</li>
+          <li>디저트 박스</li>
+          <li>턴다운 세팅</li>
+        </ul>
+        <a href="#reserve" class="btn" data-pkg="디럭스 애니버서리">이 패키지로 문의</a>
+      </article>
+
+      <article class="pkg reveal">
+        <button type="button" class="pkg-img" data-set="suite" aria-label="스위트 프로포즈 객실 사진 크게 보기">
+          <img src="images/pkg-suite-4.jpg" srcset="images/pkg-suite-4-s.jpg 520w, images/pkg-suite-4.jpg 1280w" sizes="(max-width: 600px) 100vw, (max-width: 980px) 520px, 380px" decoding="async" alt="장미 꽃잎으로 I LOVE U를 만든 욕조" loading="lazy">
+          <span class="view-more">사진 5장 보기 +</span>
+        </button>
+        <div class="tier">Suite</div>
+        <h3>스위트 프로포즈</h3>
+        <div class="en-name">Suite Propose</div>
+        <div class="price">290,000<small>원</small></div>
+        <div class="vat">VAT 포함 · 출장 세팅비 포함</div>
+        <hr>
+        <ul>
+          <li class="inherit">디럭스 애니버서리 구성 전체</li>
+          <li>장미 꽃길</li>
+          <li>대형 풍선 아치</li>
+          <li>샴페인 세팅</li>
+        </ul>
+        <a href="#reserve" class="btn" data-pkg="스위트 프로포즈">이 패키지로 문의</a>
+      </article>
+    </div>
+
+    <div class="options-block" id="options">
+      <div class="sec-head reveal">
+        <div class="en">Add-on Options</div>
+        <h2>추가 옵션</h2>
+        <p>어떤 패키지에든 원하는 옵션을 더할 수 있습니다.</p>
+      </div>
+      <div class="options">
+        <div class="opt reveal"><div class="name">배너 문구·이름 커스텀</div><div class="p">10,000<small>원</small></div></div>
+        <div class="opt reveal"><div class="name">폴라로이드 사진 가랜드<small>사진 10장 인화</small></div><div class="p">15,000<small>원</small></div></div>
+        <div class="opt reveal"><div class="name">레터링 케이크</div><div class="p">39,000<small>원</small></div></div>
+        <div class="opt reveal"><div class="name">촬영용 조명·삼각대 대여</div><div class="p">20,000<small>원</small></div></div>
+        <div class="opt reveal"><div class="name">호캉스 동선 가이드 PDF</div><div class="p">5,000<small>원</small></div></div>
+        <div class="opt reveal"><div class="name">다음 날 철수 대행</div><div class="p">20,000<small>원</small></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GUIDE -->
+<section id="guide" class="dark">
+  <div class="container">
+    <div class="sec-head reveal">
+      <div class="en">How it works</div>
+      <h2>이용 안내</h2>
+      <p>다섯 단계면 충분합니다. 나머지는 컨시어지가 준비합니다.</p>
+    </div>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="num">01</div>
+        <h4>호텔 예약 · 패키지 주문</h4>
+        <p>호텔을 직접 예약하고, 이용일 5일 전까지 패키지를 주문해 주세요.</p>
+      </div>
+      <div class="step reveal">
+        <div class="num">02</div>
+        <h4>주문 메모 작성</h4>
+        <p>주문 메모에 호텔명·체크인 날짜·예약자명·원하는 문구를 적어 주세요.</p>
+      </div>
+      <div class="step reveal">
+        <div class="num">03</div>
+        <h4>호텔 프런트 확인</h4>
+        <p>컨시어지가 호텔 프런트에 데코 가능 여부와 입실 시간을 확인합니다.</p>
+      </div>
+      <div class="step reveal">
+        <div class="num">04</div>
+        <h4>당일 객실 세팅</h4>
+        <p>체크인 당일, 컨시어지가 먼저 객실에 들어가 세팅합니다.</p>
+      </div>
+      <div class="step reveal">
+        <div class="num">05</div>
+        <h4>완료 사진 · 후기 적립</h4>
+        <p>세팅 완료 사진을 보내드리며, 후기를 작성하시면 적립금을 드립니다.</p>
+      </div>
+    </div>
+    <div class="notice reveal">
+      <h5>꼭 확인해 주세요</h5>
+      <ul>
+        <li>패키지 주문은 이용일 5일 전까지 가능합니다.</li>
+        <li>호텔 정책에 따라 촛불은 LED 제품만 사용하며, 일부 호텔은 데코 반입이 제한될 수 있습니다.</li>
+        <li>다음 날 데코 철수가 필요하시면 '다음 날 철수 대행(20,000원)' 옵션을 추가해 주세요.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- PAYMENT -->
+<section id="payment" class="cream">
+  <div class="container">
+    <div class="sec-head reveal">
+      <div class="en">Payment &amp; Refund</div>
+      <h2>결제 · 환불 안내</h2>
+    </div>
+    <div class="pay-grid">
+      <div class="pay-card reveal">
+        <h3>계좌이체 안내</h3>
+        <div class="bank">
+          <div class="acc">OO은행 000-0000-0000-00 <em>(예시)</em></div>
+          <div class="holder">예금주 룸바이컨시어지 홍길동</div>
+        </div>
+        <ul>
+          <li><strong>입금 기한</strong> 주문 후 24시간 안에 입금하지 않으면 자동 취소됩니다.</li>
+          <li><strong>입금자명</strong> 주문자명과 같게 입금해 주세요. 다르면 톡톡으로 문의해 주세요.</li>
+          <li><strong>일정 확정</strong> 입금 확인 후 24시간 안에 연락드려 호텔과 일정을 확정합니다.</li>
+          <li><strong>현금영수증</strong> 주문 시 신청하시면 자동 발급됩니다.</li>
+        </ul>
+      </div>
+      <div class="pay-card reveal">
+        <h3>환불 규정</h3>
+        <div class="table-wrap">
+          <table class="refund">
+            <thead><tr><th scope="col">취소 시점</th><th scope="col">환불 금액</th></tr></thead>
+            <tbody>
+              <tr><td>체크인 7일 전까지</td><td>100%</td></tr>
+              <tr><td>체크인 3~6일 전</td><td>70%</td></tr>
+              <tr><td>체크인 1~2일 전</td><td>30%</td></tr>
+              <tr><td>체크인 당일</td><td style="font-family:var(--sans);font-size:.92rem">환불 불가</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="small-note">※ 호텔 측 사유로 세팅이 불가한 경우 전액 환불됩니다. 생화·디저트 등 맞춤 제작 품목은 주문 후 일정 변경이 제한될 수 있습니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container about">
+    <div class="about-visual reveal">
+      <div class="mono">R<span style="font-style:italic">·</span>C<small>Since your first day</small></div>
+    </div>
+    <div class="about-text reveal">
+      <div class="sec-head" style="text-align:left;margin-bottom:28px">
+        <div class="en">Our Concierge</div>
+        <h2>컨시어지 소개</h2>
+      </div>
+      <h3>호텔리어의 디테일로,<br>당신의 <em>하루</em>를 완성합니다.</h3>
+      <p>룸바이컨시어지는 특급 호텔 객실 서비스 경험을 가진 컨시어지들이 만든 기념일 데코 브랜드입니다. 고객님은 객실만 예약하세요. 호텔과의 조율부터 세팅까지 모든 과정을 저희가 맡습니다.</p>
+      <p>풍선 하나의 위치, 촛불의 간격, 카드 한 장의 문장까지 — 문을 여는 순간의 표정을 상상하며 준비합니다.</p>
+      <div class="values">
+        <div class="value"><b>Discreet</b><span>깜짝 이벤트도 비밀 유지</span></div>
+        <div class="value"><b>Detail</b><span>호텔 기준의 섬세한 세팅</span></div>
+        <div class="value"><b>Care</b><span>상담부터 세팅까지 책임</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery" class="cream">
+  <div class="container">
+    <div class="sec-head reveal">
+      <div class="en">Gallery</div>
+      <h2>호텔 객실 갤러리</h2>
+      <p>침실, 욕실, 창가 뷰, 라운지, 미니바까지 — 컨시어지가 찾아가는 객실의 공간을 미리 만나보세요.</p>
+    </div>
+    <div class="gallery reveal" id="gallery-grid"></div>
+  </div>
+</section>
+
+<!-- RESERVE -->
+<section id="reserve" class="dark">
+  <div class="container">
+    <div class="sec-head reveal">
+      <div class="en">Reservation</div>
+      <h2>예약 문의</h2>
+      <p>원하시는 패키지와 옵션을 골라 예상 금액을 확인해 보세요.</p>
+    </div>
+    <div class="reserve-wrap reveal">
+      <form id="reserveForm" novalidate autocomplete="off">
+        <div class="form-grid">
+          <div class="field">
+            <label for="hotel">호텔명</label>
+            <input type="text" id="hotel" name="hotel" placeholder="예) OO호텔 서울">
+          </div>
+          <div class="field">
+            <label for="checkin">체크인 날짜</label>
+            <input type="date" id="checkin" name="checkin">
+          </div>
+          <div class="field">
+            <label for="guest">예약자명</label>
+            <input type="text" id="guest" name="guest" placeholder="호텔 예약 시 사용한 이름">
+          </div>
+          <div class="field">
+            <label for="pkg">패키지</label>
+            <select id="pkg" name="pkg">
+              <option value="">선택해 주세요</option>
+              <option data-price="89000">스탠다드 로맨스 (89,000원)</option>
+              <option data-price="159000">디럭스 애니버서리 (159,000원)</option>
+              <option data-price="290000">스위트 프로포즈 (290,000원)</option>
+              <option>상담 후 결정</option>
+            </select>
+          </div>
+          <div class="field full">
+            <label for="message">원하는 문구</label>
+            <textarea id="message" name="message" maxlength="40" placeholder="레터링 배너에 들어갈 문구 예) HAPPY 1st ANNIVERSARY"></textarea>
+            <div class="char-count"><span id="count">0</span> / 40자</div>
+          </div>
+          <div class="field full">
+            <span class="label">추가 옵션</span>
+            <div class="opt-checks">
+              <label><input type="checkbox" name="opt" value="10000">배너 문구·이름 커스텀<em>+10,000</em></label>
+              <label><input type="checkbox" name="opt" value="15000">폴라로이드 사진 가랜드 (10장)<em>+15,000</em></label>
+              <label><input type="checkbox" name="opt" value="39000">레터링 케이크<em>+39,000</em></label>
+              <label><input type="checkbox" name="opt" value="20000">촬영용 조명·삼각대 대여<em>+20,000</em></label>
+              <label><input type="checkbox" name="opt" value="5000">호캉스 동선 가이드 PDF<em>+5,000</em></label>
+              <label><input type="checkbox" name="opt" value="20000">다음 날 철수 대행<em>+20,000</em></label>
+            </div>
+          </div>
+        </div>
+        <div class="total"><span>예상 결제 금액</span><b id="total">0원</b></div>
+        <button type="submit" class="btn btn-gold">예약 문의 보내기</button>
+        <div class="result" id="result" role="status" aria-live="polite">문의가 접수되었습니다.</div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="foot">
+      <div>
+        <div class="logo"><span class="en">Room by Concierge</span><span class="kr">룸바이컨시어지</span></div>
+        <p>예약은 당신이, 감동은 컨시어지가</p>
+      </div>
+      <div class="info">
+        <p>상담 시간 10:00 – 20:00 (연중무휴)</p>
+        <p>호텔 기념일 데코 · 프로포즈 · 생일 · 기념일 이벤트</p>
+      </div>
+    </div>
+    <p class="credits">사진: <a href="https://www.pexels.com" target="_blank" rel="noopener">Pexels</a> (Pexels License) — 작가 정보는 사진을 크게 열면 보입니다. 배경 영상: Alef Morais / <a href="https://www.pexels.com/video/luxurious-modern-bedroom-with-natural-light-39024331/" target="_blank" rel="noopener">Pexels</a>. 모든 사진은 연출 예시입니다.</p>
+    <div class="copy">© 2026 ROOM BY CONCIERGE</div>
+  </div>
+</footer>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-labelledby="lbTitle">
+  <button type="button" class="lb-btn lb-close" id="lbClose" aria-label="닫기">×</button>
+  <div class="lb-inner" id="lbInner">
+    <div class="lb-title" id="lbTitle"></div>
+    <div class="lb-stage" id="lbStage"><img id="lbImg" alt=""></div>
+    <div class="lb-meta">
+      <div class="lb-cap" id="lbCap"></div>
+      <div class="lb-credit" id="lbCredit"></div>
+      <div class="lb-count" id="lbCount" aria-live="polite"></div>
+    </div>
+    <div class="lb-thumbs" id="lbThumbs"></div>
+  </div>
+  <button type="button" class="lb-btn lb-prev" id="lbPrev" aria-label="이전 사진">◀</button>
+  <button type="button" class="lb-btn lb-next" id="lbNext" aria-label="다음 사진">▶</button>
+</div>
+
+<script>
+  /* ===== 사진 데이터 =====
+     p: Pexels 사진 번호, u: Unsplash 사진 ID. 모두 무료 라이선스(Pexels License / Unsplash License).
+     패키지 사진은 여러 작가의 사진을 공간별로 모은 연출 예시입니다(한 객실을 찍은 세트가 아님).
+     실제 시공 사진이 생기면 같은 형식으로 바꿔 넣으면 됩니다. */
+  const PACKAGE_PHOTOS = {
+    standard: { title: '스탠다드 로맨스 · 풍선 · LED 촛불 · 배너', items: [
+      { f: 'pkg-standard-1', p: 39982688, cap: '침대 위 — 골드 풍선 세팅', by: 'Bankim Bhagat' },
+      { f: 'pkg-standard-2', p: 17130444, cap: '객실 전경 — 풍선과 꽃잎 데코', by: 'thongtran95' },
+      { f: 'pkg-standard-3', p: 8014761,  cap: '소파 벽면 — 레터링 풍선 배너', by: 'Cup of Couple' },
+      { f: 'pkg-standard-4', p: 8014699,  cap: '소품 가까이 — 촛불 케이크와 풍선', by: 'Cup of Couple' },
+    ]},
+    deluxe: { title: '디럭스 애니버서리 · 꽃다발 · 디저트 · 턴다운', items: [
+      { f: 'pkg-deluxe-1', p: 34496706, cap: '침대 위 — 타월 스완 턴다운 세팅', by: 'Chrislyn Dsouza' },
+      { f: 'pkg-deluxe-2', p: 40411934, cap: '창가 테이블 — 꽃 장식', by: 'Faheem Ahamad' },
+      { f: 'pkg-deluxe-3', p: 1579253,  cap: '침대 앞 테이블 — 디저트와 샴페인', by: 'Engin Akyurt' },
+      { f: 'pkg-deluxe-4', p: 4870818,  cap: '욕실 — 꽃을 띄운 욕조', by: 'Karolina Grabowska' },
+      { f: 'pkg-deluxe-5', p: 38223777, cap: '소품 가까이 — 꽃다발과 디저트 박스', by: 'kris-tina' },
+    ]},
+    suite: { title: '스위트 프로포즈 · 장미 꽃길 · 풍선 · 샴페인', items: [
+      { f: 'pkg-suite-1', p: 13871318, cap: '입구 — 문 쪽에서 본 꽃잎 객실', by: 'bertellifotografia' },
+      { f: 'pkg-suite-2', p: 278827,   cap: '복도 — 장미 꽃잎 꽃길', by: 'Pixabay' },
+      { f: 'pkg-suite-3', p: 25052912, cap: '침대 위 — 하트 꽃잎과 풍선', by: 'hson' },
+      { f: 'pkg-suite-4', p: 36748139, cap: '욕실 — 꽃잎으로 쓴 I ♥ U', by: 'Kevin Yung' },
+      { f: 'pkg-suite-5', p: 20944029, cap: '소품 가까이 — 샴페인 세팅', by: 'eduraw' },
+    ]},
+  };
+  const GALLERY_PHOTOS = [
+    { f: 'room-1', p: 40756993, cap: '침실 — 킹 베드와 유리 욕실', by: 'Faheem Ahamad', cls: 'wide tall' },
+    { f: 'room-2', p: 40756990, cap: '욕실 — 시티뷰 욕조', by: 'Faheem Ahamad' },
+    { f: 'room-3', p: 40756967, cap: '미니바 · 커피 스테이션', by: 'Faheem Ahamad' },
+    { f: 'room-4', p: 22809835, cap: '창가 뷰 — 바다 전망', by: 'Pinar' },
+    { f: 'room-5', p: 40624372, cap: '욕실 — 세면대와 거울', by: 'Faheem Ahamad' },
+    { f: 'room-6', p: 40756965, cap: '라운지 소파', by: 'Faheem Ahamad', cls: 'wide' },
+    { f: 'room-7', p: 33389169, cap: '창가 뷰 — 해변과 도시 전망', by: 'Vince' },
+    { f: 'room-8', p: 40756963, cap: '침실 — 창가 소파와 침대', by: 'Faheem Ahamad' },
+  ];
+
+  // 사진은 images 폴더(상대경로)에 저장: 큰 사진 images/이름.jpg (최대 1280px), 작은 사진 images/이름-s.jpg (최대 520px)
+  const src = (it, w) => w <= 520 ? `images/${it.f}-s.jpg` : `images/${it.f}.jpg`;
+  const srcset = it => `images/${it.f}-s.jpg 520w, images/${it.f}.jpg 1280w`;
+  const page = () => 'https://www.pexels.com';
+  const site = () => 'Pexels';
+
+  /* ===== Header / menu ===== */
+  const header = document.getElementById('header');
+  const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 40);
+  window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
+  const burger = document.getElementById('burger');
+  const menu = document.getElementById('menu');
+  const toggleMenu = open => {
+    burger.classList.toggle('open', open);
+    menu.classList.toggle('open', open);
+    header.classList.toggle('menu-open', open);
+    burger.setAttribute('aria-expanded', open);
+    burger.setAttribute('aria-label', open ? '메뉴 닫기' : '메뉴 열기');
+  };
+  burger.addEventListener('click', () => toggleMenu(!menu.classList.contains('open')));
+  menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => toggleMenu(false)));
+
+  /* ===== 배경 영상: 폰·데이터 절약 모드에서는 사진(포스터)만 보여 빠르게 뜨도록 함 ===== */
+  (() => {
+    const v = document.getElementById("heroVideo");
+    const saveData = navigator.connection && navigator.connection.saveData;
+    if (window.matchMedia("(min-width: 768px)").matches && !saveData && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      const s = document.createElement("source");
+      s.src = "https://videos.pexels.com/video-files/39024331/16605509_2560_1440_30fps.mp4";
+      s.type = "video/mp4";
+      v.appendChild(s); v.load();
+      const p = v.play(); if (p && p.catch) p.catch(() => {});
+    }
+  })();
+
+  /* ===== Hero sparkles ===== */
+  const hero = document.querySelector('.hero');
+  for (let i = 0; i < 24; i++) {
+    const s = document.createElement('span');
+    s.className = 'sparkle';
+    const size = Math.random() * 3 + 1;
+    Object.assign(s.style, { width: size + 'px', height: size + 'px', left: Math.random() * 100 + '%', top: Math.random() * 100 + '%', animationDelay: Math.random() * 5 + 's', animationDuration: (4 + Math.random() * 4) + 's' });
+    hero.appendChild(s);
+  }
+
+  /* ===== Gallery build ===== */
+  const grid = document.getElementById('gallery-grid');
+  GALLERY_PHOTOS.forEach((it, i) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    if (it.cls) b.className = it.cls;
+    b.setAttribute('aria-label', `${it.cap} 크게 보기 (${i + 1} / ${GALLERY_PHOTOS.length})`);
+    const big = it.cls && it.cls.includes("tall");
+    b.innerHTML = `<img src="${src(it, big ? 1280 : 520)}" srcset="${srcset(it)}" sizes="${big ? "(max-width: 980px) 100vw, 50vw" : "(max-width: 980px) 50vw, 25vw"}" alt="${it.cap}" loading="lazy" decoding="async"><span class="cap">${it.cap}</span>`;
+    b.addEventListener('click', () => openLb(GALLERY_PHOTOS, i, '호텔 객실 갤러리', false));
+    grid.appendChild(b);
+  });
+
+  /* ===== Reveal ===== */
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0, rootMargin: "0px 0px -40px 0px" });
+    // 혹시 감지가 늦어도 3초 뒤에는 모든 내용이 보이도록 안전장치
+    setTimeout(() => document.querySelectorAll(".reveal").forEach(el => el.classList.add("in")), 3000);
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  } else {
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
+  }
+
+  /* ===== Lightbox ===== */
+  const lb = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lbImg'), lbTitle = document.getElementById('lbTitle');
+  const lbCap = document.getElementById('lbCap'), lbCredit = document.getElementById('lbCredit');
+  const lbCount = document.getElementById('lbCount'), lbThumbs = document.getElementById('lbThumbs');
+  const lbPrev = document.getElementById('lbPrev'), lbNext = document.getElementById('lbNext');
+  const lbClose = document.getElementById('lbClose');
+  let lbList = [], lbIndex = 0, lbOpener = null;
+
+  function showLb(i) {
+    lbIndex = (i + lbList.length) % lbList.length;
+    const it = lbList[lbIndex];
+    lbImg.classList.add('loading');
+    lbImg.onload = () => lbImg.classList.remove('loading');
+    lbImg.src = src(it, 1600);
+    lbImg.alt = it.cap;
+    lbCap.textContent = it.cap;
+    lbCredit.innerHTML = `Photo · ${it.by} / <a href="${page(it)}" target="_blank" rel="noopener">${site(it)}</a>`;
+    lbCount.textContent = `${lbIndex + 1} / ${lbList.length}`;
+    [...lbThumbs.children].forEach((b, k) => b.classList.toggle('active', k === lbIndex));
+    [lbIndex + 1, lbIndex - 1].forEach(k => { new Image().src = src(lbList[(k + lbList.length) % lbList.length], 1600); });
+  }
+  function openLb(list, index, title, withThumbs) {
+    lbList = list; lbOpener = document.activeElement;
+    lbTitle.textContent = title;
+    lbThumbs.innerHTML = '';
+    if (withThumbs) list.forEach((it, k) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.setAttribute('aria-label', `${k + 1}번째 사진: ${it.cap}`);
+      b.innerHTML = `<img src="${src(it, 160)}" alt="" decoding="async">`;
+      b.addEventListener('click', () => showLb(k));
+      lbThumbs.appendChild(b);
+    });
+    lb.classList.add('open');
+    document.body.classList.add('lb-lock');
+    showLb(index);
+    lbClose.focus();
+  }
+  function closeLb() {
+    if (!lb.classList.contains('open')) return;
+    lb.classList.remove('open');
+    document.body.classList.remove('lb-lock');
+    if (lbOpener && lbOpener.focus) lbOpener.focus();
+  }
+  lbPrev.addEventListener('click', () => showLb(lbIndex - 1));
+  lbNext.addEventListener('click', () => showLb(lbIndex + 1));
+  lbClose.addEventListener('click', closeLb);
+  // 바깥(사진·버튼·글자 외의 빈 곳) 클릭 시 닫기
+  lb.addEventListener('click', e => {
+    if (e.target === lb || e.target.id === 'lbStage' || e.target.id === 'lbInner') closeLb();
+  });
+  document.addEventListener('keydown', e => {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape') closeLb();
+    else if (e.key === 'ArrowLeft') { e.preventDefault(); showLb(lbIndex - 1); }
+    else if (e.key === 'ArrowRight') { e.preventDefault(); showLb(lbIndex + 1); }
+    else if (e.key === 'Tab') { // 창 안에서만 포커스 이동
+      const f = [...lb.querySelectorAll('button, a[href]')];
+      const first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+  });
+  // 휴대폰: 옆으로 밀어서 넘기기
+  let tx = null, ty = null;
+  const stage = document.getElementById('lbStage');
+  stage.addEventListener('touchstart', e => { tx = e.touches[0].clientX; ty = e.touches[0].clientY; }, { passive: true });
+  stage.addEventListener('touchend', e => {
+    if (tx === null) return;
+    const dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty;
+    if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) showLb(lbIndex + (dx < 0 ? 1 : -1));
+    tx = ty = null;
+  });
+
+  // 패키지 사진 → 객실 사진 세트
+  document.querySelectorAll('.pkg-img').forEach(btn => {
+    const set = PACKAGE_PHOTOS[btn.dataset.set];
+    btn.addEventListener('click', () => openLb(set.items, 0, set.title, true));
+  });
+
+  /* ===== Reservation (전송 없음: 화면 메시지만 표시) ===== */
+  const pkgSelect = document.getElementById('pkg');
+  const totalEl = document.getElementById('total');
+  const optChecks = document.querySelectorAll('input[name="opt"]');
+  const updateTotal = () => {
+    const sel = pkgSelect.selectedOptions[0];
+    let sum = Number((sel && sel.dataset.price) || 0);
+    optChecks.forEach(c => { if (c.checked) sum += Number(c.value); });
+    totalEl.textContent = sum.toLocaleString('ko-KR') + '원';
+  };
+  pkgSelect.addEventListener('change', updateTotal);
+  optChecks.forEach(c => c.addEventListener('change', updateTotal));
+  document.querySelectorAll('[data-pkg]').forEach(btn => btn.addEventListener('click', () => {
+    const opt = [...pkgSelect.options].find(o => o.text.startsWith(btn.dataset.pkg));
+    if (opt) { pkgSelect.value = opt.value; updateTotal(); }
+  }));
+
+  const checkin = document.getElementById('checkin');
+  const min = new Date(); min.setDate(min.getDate() + 5);
+  checkin.min = `${min.getFullYear()}-${String(min.getMonth() + 1).padStart(2, '0')}-${String(min.getDate()).padStart(2, '0')}`;
+
+  const msg = document.getElementById('message'), count = document.getElementById('count');
+  msg.addEventListener('input', () => { count.textContent = msg.value.length; });
+
+  const result = document.getElementById('result');
+  document.getElementById('reserveForm').addEventListener('submit', e => {
+    e.preventDefault(); // 어디에도 전송하지 않음
+    result.classList.remove('show'); void result.offsetWidth;
+    result.classList.add('show');
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>잠실 호캉스 1박 코스 홍보 영상 | 룸바이컨시어지</title>
+<meta name="description" content="룸바이컨시어지 잠실 기념일 호캉스 1박 코스 15초 홍보 영상">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #05070d;
+    --ink: #ffffff;
+    --gold: #ffc83d;
+    --gold-deep: #b8975a;
+    --hot: #ff3d5a;
+    --dim: rgba(255,255,255,.55);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; height: 100%; background: #000; overflow: hidden; }
+  body { font-family: 'Noto Sans KR', sans-serif; color: var(--ink); display: flex; align-items: center; justify-content: center; -webkit-font-smoothing: antialiased; }
+
+  /* 16:9 무대 — 1920×1080 기준으로 그리고 화면에 맞게 확대·축소 */
+  #viewport { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; }
+  #stage { position: relative; width: 1920px; height: 1080px; flex: none; overflow: hidden; background: var(--bg); transform-origin: center center; }
+
+  /* 배경 */
+  .bg-glow { position: absolute; inset: -20%; background:
+      radial-gradient(circle at 30% 40%, rgba(255,200,61,.20), transparent 45%),
+      radial-gradient(circle at 75% 70%, rgba(255,61,90,.16), transparent 50%); }
+  .bg-stripes { position: absolute; inset: -50%; opacity: .07;
+    background: repeating-linear-gradient(-30deg, #fff 0 2px, transparent 2px 70px); }
+  .bg-vignette { position: absolute; inset: 0; background: radial-gradient(ellipse at center, transparent 45%, rgba(0,0,0,.75) 100%); pointer-events: none; }
+  .flash { position: absolute; inset: 0; background: #fff; opacity: 0; pointer-events: none; z-index: 20; }
+  .frame { position: absolute; inset: 36px; border: 3px solid rgba(255,200,61,.35); pointer-events: none; z-index: 5; }
+  .brand { position: absolute; left: 70px; top: 58px; font-weight: 700; font-size: 30px; letter-spacing: .18em; color: var(--gold); z-index: 6; opacity: 0; }
+  .progress { position: absolute; left: 0; bottom: 0; height: 10px; width: 100%; background: linear-gradient(90deg, var(--gold), var(--hot)); transform-origin: left center; transform: scaleX(0); z-index: 6; }
+
+  .scene { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; opacity: 0; z-index: 10; }
+  .shaker { position: absolute; inset: 0; }
+
+  /* 0~2초: 제목 */
+  .title-line { font-weight: 900; line-height: 1.02; letter-spacing: -.02em; white-space: nowrap; }
+  .title-line.l1 { font-size: 230px; color: var(--ink); }
+  .title-line.l2 { font-size: 230px; color: var(--gold); text-shadow: 0 0 60px rgba(255,200,61,.35); }
+
+  /* 2~8초: 장소 */
+  .kicker { font-weight: 900; font-size: 170px; line-height: 1.1; }
+  .kicker em { font-style: normal; color: var(--gold); }
+  .kicker-sub { margin-top: 30px; font-weight: 700; font-size: 56px; color: var(--dim); letter-spacing: .3em; }
+  .place-num { font-weight: 900; font-size: 90px; color: var(--hot); letter-spacing: .05em; line-height: 1; margin-bottom: 18px; }
+  .place-name { font-weight: 900; font-size: 260px; line-height: 1.05; letter-spacing: -.03em; white-space: nowrap; }
+  .place-name.two { font-size: 210px; }
+  .place-name .small { display: block; font-size: 110px; color: var(--dim); letter-spacing: 0; margin-bottom: 6px; }
+  .place-bar { width: 260px; height: 16px; background: var(--gold); margin-top: 40px; }
+
+  /* 8~12초: 숫자 */
+  .count-label { font-weight: 700; font-size: 56px; color: var(--dim); letter-spacing: .1em; }
+  .count-label b { color: var(--hot); font-weight: 900; margin-left: 14px; padding: 2px 18px; border: 4px solid var(--hot); font-size: 46px; vertical-align: 6px; }
+  .count-num { font-weight: 900; font-size: 300px; line-height: 1.05; color: var(--gold); letter-spacing: -.03em; font-variant-numeric: tabular-nums; margin-top: 10px; }
+  .count-num small { font-size: 140px; color: var(--ink); margin-left: 16px; }
+  .count-tags { display: flex; gap: 30px; margin-top: 36px; }
+  .count-tags span { font-weight: 900; font-size: 64px; padding: 10px 40px; background: var(--ink); color: var(--bg); opacity: 0; }
+
+  /* 12~15초: 마무리 */
+  .go { font-weight: 900; font-size: 250px; line-height: 1; letter-spacing: -.03em; color: var(--ink); white-space: nowrap; }
+  .go em { font-style: normal; color: var(--gold); }
+  .url { margin-top: 64px; font-weight: 700; font-size: 54px; color: var(--bg); background: var(--gold); padding: 18px 44px; letter-spacing: .01em; opacity: 0; white-space: nowrap; }
+  .go-sub { margin-top: 34px; font-weight: 700; font-size: 40px; color: var(--dim); letter-spacing: .2em; opacity: 0; }
+
+  /* 다시보기 버튼 */
+  #replay { position: fixed; right: max(20px, env(safe-area-inset-right)); bottom: max(20px, env(safe-area-inset-bottom)); z-index: 100;
+    font-family: inherit; font-weight: 700; font-size: 16px; color: #05070d; background: var(--gold); border: 0; padding: 12px 22px; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 6px 24px rgba(0,0,0,.45); transition: transform .2s, background .2s; }
+  #replay:hover { background: #fff; transform: translateY(-2px); }
+  #replay:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+  #replay svg { width: 18px; height: 18px; }
+</style>
+</head>
+<body>
+
+<div id="viewport">
+  <div id="stage" role="img" aria-label="잠실 기념일 호캉스 1박 코스 15초 홍보 영상">
+    <div class="bg-glow" id="bgGlow"></div>
+    <div class="bg-stripes" id="bgStripes"></div>
+    <div class="bg-vignette"></div>
+    <div class="frame"></div>
+    <div class="brand" id="brand">ROOM BY CONCIERGE</div>
+
+    <div class="shaker" id="shaker">
+      <!-- 0~2초 -->
+      <div class="scene" id="sTitle">
+        <div class="title-line l1">잠실 기념일</div>
+        <div class="title-line l2">호캉스 1박 코스</div>
+      </div>
+
+      <!-- 2~3.5초 -->
+      <div class="scene" id="sKicker">
+        <div class="kicker">호텔 주변 <em>추천 장소</em></div>
+        <div class="kicker-sub">3 PLACES</div>
+      </div>
+
+      <!-- 3.5~8초: 1.5초씩 -->
+      <div class="scene" id="sP1">
+        <div class="place-num">01</div>
+        <div class="place-name">석촌호수</div>
+        <div class="place-bar"></div>
+      </div>
+      <div class="scene" id="sP2">
+        <div class="place-num">02</div>
+        <div class="place-name two"><span class="small">롯데월드타워</span>서울스카이</div>
+        <div class="place-bar"></div>
+      </div>
+      <div class="scene" id="sP3">
+        <div class="place-num">03</div>
+        <div class="place-name">올림픽공원</div>
+        <div class="place-bar"></div>
+      </div>
+
+      <!-- 8~12초 -->
+      <div class="scene" id="sCount">
+        <div class="count-label">2인 예상 비용<b>예시</b></div>
+        <div class="count-num"><span id="countVal">0</span><small>원</small></div>
+        <div class="count-tags"><span id="tag1">1박 2일</span><span id="tag2">추천 장소 3곳</span></div>
+      </div>
+
+      <!-- 12~15초 -->
+      <div class="scene" id="sGo">
+        <div class="go">지금 <em>떠나세요</em></div>
+        <div class="url" id="url">https://subinn0117-afk.github.io/room-by-concierge/</div>
+        <div class="go-sub" id="goSub">잠실 기념일 호캉스 1박 코스</div>
+      </div>
+    </div>
+
+    <div class="flash" id="flash"></div>
+    <div class="progress" id="progress"></div>
+  </div>
+</div>
+
+<button id="replay" type="button" aria-label="영상 다시보기">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>
+  다시보기
+</button>
+
+<script>
+  /* ===== 무대 크기 맞추기 (16:9 유지, 화면 가득) ===== */
+  const stage = document.getElementById('stage');
+  function fit() {
+    const s = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+    stage.style.transform = `scale(${s})`;
+  }
+  window.addEventListener('resize', fit);
+  fit();
+
+  /* ===== 도우미 =====
+     모든 효과를 재생 시작 시점에 '지연시간(delay)'을 붙여 한 번에 만들어 두므로
+     하나의 시계로 정확히 15초가 흘러가고, 다시보기도 처음부터 똑같이 재생됩니다. */
+  const $ = id => document.getElementById(id);
+  const TOTAL = 15000;
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const EASE = 'cubic-bezier(.2,.9,.2,1)';
+  let master = null, rafId = null;
+
+  const anim = (el, frames, delay, duration, opts = {}) =>
+    el.animate(frames, Object.assign({ delay, duration, fill: 'forwards', easing: EASE }, opts));
+
+  function shake(delay, power = 26, dur = 380) {
+    if (reduce) return;
+    const k = [];
+    for (let i = 0; i < 10; i++) {
+      const f = (1 - i / 10) * power;
+      k.push({ transform: `translate(${(Math.random() * 2 - 1) * f}px, ${(Math.random() * 2 - 1) * f}px) rotate(${(Math.random() * 2 - 1) * f * 0.04}deg)` });
+    }
+    k.push({ transform: 'none' });
+    anim($('shaker'), k, delay, dur, { fill: 'none', easing: 'linear' });
+  }
+  function flash(delay, strength = .85, dur = 260) {
+    anim($('flash'), [{ opacity: strength }, { opacity: 0 }], delay, dur, { fill: 'none', easing: 'ease-out' });
+  }
+  // 쾅 등장: 크게 → 제자리 + 흔들림 + 번쩍
+  function slamIn(el, delay, from = 2.6, dur = 420) {
+    anim(el, [
+      { opacity: 0, transform: `scale(${from})`, filter: 'blur(18px)' },
+      { opacity: 1, transform: 'scale(.94)', filter: 'blur(0px)', offset: .75 },
+      { opacity: 1, transform: 'scale(1)', filter: 'blur(0px)' }
+    ], delay, dur);
+    shake(delay + dur * .75);
+    flash(delay + dur * .75);
+  }
+  function exitZoom(el, delay, dur = 250) {
+    anim(el, [
+      { opacity: 1, transform: 'scale(1)', filter: 'blur(0px)' },
+      { opacity: 0, transform: 'scale(1.6)', filter: 'blur(12px)' }
+    ], delay, dur, { easing: 'ease-in' });
+  }
+  // 장소 전환(1.5초): 확대 + 슬라이드 진입 → 흔들림 → 반대쪽으로 퇴장
+  function place(el, delay, dir) {
+    const x = dir * 900;
+    anim(el, [
+      { opacity: 0, transform: `translateX(${x}px) scale(2.2) skewX(${-dir * 12}deg)`, filter: 'blur(14px)' },
+      { opacity: 1, transform: 'translateX(0px) scale(1) skewX(0deg)', filter: 'blur(0px)', offset: .8 },
+      { opacity: 1, transform: 'translateX(0px) scale(1) skewX(0deg)', filter: 'blur(0px)' }
+    ], delay, 380);
+    shake(delay + 300, 30, 360);
+    flash(delay + 300, .35, 180);
+    anim(el.querySelector('.place-bar'), [{ transform: 'scaleX(0)' }, { transform: 'scaleX(1)' }], delay + 250, 500, { fill: 'both' });
+    anim(el.querySelector('.place-name'), [{ transform: 'scale(1)' }, { transform: 'scale(1.06)' }], delay + 400, 900, { easing: 'ease-out' });
+    anim(el, [
+      { opacity: 1, transform: 'translateX(0px) scale(1)', filter: 'blur(0px)' },
+      { opacity: 0, transform: `translateX(${-x}px) scale(.8)`, filter: 'blur(10px)' }
+    ], delay + 1300, 200, { easing: 'ease-in' });
+  }
+
+  /* ===== 15초 타임라인 ===== */
+  function build() {
+    document.getAnimations().forEach(a => a.cancel());
+    if (rafId) cancelAnimationFrame(rafId);
+
+    // 기준 시계 = 진행 막대 (0~15초)
+    master = anim($('progress'), [{ transform: 'scaleX(0)' }, { transform: 'scaleX(1)' }], 0, TOTAL, { easing: 'linear' });
+    anim($('bgStripes'), [{ transform: 'translateX(0px)' }, { transform: 'translateX(420px)' }], 0, TOTAL, { easing: 'linear' });
+    anim($('bgGlow'), [{ transform: 'rotate(0deg) scale(1)' }, { transform: 'rotate(40deg) scale(1.25)' }], 0, TOTAL, { easing: 'ease-in-out' });
+
+    // 0~2초: 제목 쾅
+    slamIn($('sTitle'), 0, 3.2, 480);
+    exitZoom($('sTitle'), 1750, 250);
+
+    // 2~3.5초: 호텔 주변 추천 장소
+    slamIn($('sKicker'), 2000, 2, 360);
+    exitZoom($('sKicker'), 3300, 200);
+    anim($('brand'), [{ opacity: 0 }, { opacity: 1 }], 2100, 400);
+
+    // 3.5~8초: 장소 1.5초씩
+    place($('sP1'), 3500, 1);
+    place($('sP2'), 5000, -1);
+    place($('sP3'), 6500, 1);
+
+    // 8~12초: 예상 비용 카운트업 (숫자는 아래 rAF가 기준 시계를 보고 갱신)
+    slamIn($('sCount'), 8000, 1.8, 360);
+    anim($('countVal').parentElement, [{ transform: 'scale(1)' }, { transform: 'scale(1.12)' }, { transform: 'scale(1)' }], 10550, 380, { fill: 'none' });
+    shake(10550, 34, 400);
+    flash(10550, .6, 220);
+    anim($('tag1'), [{ opacity: 0, transform: 'translateY(60px) scale(1.4)' }, { opacity: 1, transform: 'none' }], 10900, 260);
+    anim($('tag2'), [{ opacity: 0, transform: 'translateY(60px) scale(1.4)' }, { opacity: 1, transform: 'none' }], 11150, 260);
+    exitZoom($('sCount'), 11800, 200);
+
+    // 12~15초: 지금 떠나세요 + 주소 (끝까지 유지)
+    slamIn($('sGo'), 12000, 3, 440);
+    anim($('url'), [{ opacity: 0, transform: 'translateY(40px)', clipPath: 'inset(0 100% 0 0)' }, { opacity: 1, transform: 'none', clipPath: 'inset(0 0% 0 0)' }], 12600, 600);
+    anim($('goSub'), [{ opacity: 0 }, { opacity: 1 }], 13200, 500);
+    if (!reduce) anim($('url'), [{ boxShadow: '0 0 0 0 rgba(255,200,61,.7)' }, { boxShadow: '0 0 0 26px rgba(255,200,61,0)' }], 13800, 900, { fill: 'none', easing: 'ease-out' });
+
+    tick();
+  }
+
+  // 카운트업: 8.0~10.5초 동안 0 → 639,000 (tour.html의 2인 예상 비용 '예시' 합계)
+  const countEl = $('countVal');
+  function tick() {
+    const t = master ? (master.currentTime || 0) : 0;
+    const p = Math.max(0, Math.min(1, (t - 8000) / 2500));
+    const e = 1 - Math.pow(1 - p, 3);
+    countEl.textContent = Math.round(639000 * e).toLocaleString('ko-KR');
+    if (t < TOTAL) rafId = requestAnimationFrame(tick);
+  }
+
+  // 확인용: promo.html?t=9300 처럼 열면 그 순간에서 멈춘 화면을 보여줌
+  const seek = new URLSearchParams(location.search).get('t');
+  function play() {
+    build();
+    if (seek !== null) {
+      const t = Math.max(0, Math.min(TOTAL, Number(seek) || 0));
+      document.getAnimations().forEach(a => { a.pause(); a.currentTime = t; });
+      tick();
+    }
+  }
+
+  $('replay').addEventListener('click', () => { if (seek === null) play(); else { history.replaceState(null, '', location.pathname); location.reload(); } });
+  // 글꼴이 준비되면 자동 재생 (최대 1.2초만 기다림)
+  let started = false;
+  const start = () => { if (!started) { started = true; play(); } };
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(start);
+  setTimeout(start, 1200);
+</script>
+</body>
+</html>
